@@ -71,9 +71,6 @@ tk.Button(root, text='Cadastrar', command=lambda: adicionar_produto({
         'quantidade': int(quantidade_entry.get()),
         'codigo_barras': codigo_entry.get()
     })).grid(row=5, column=1)
-
-
-
 def listar_produtos():
     print("\n---- Lista de Produtos ----")
     for produto in estoque:
