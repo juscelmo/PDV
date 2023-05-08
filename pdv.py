@@ -184,7 +184,8 @@ def start_sale():
         cart_total = 0
         for item in cart:
             cart_total += item["price"] # soma o preço de todos os itens do carrinho
-        messagebox.showinfo("Total da venda", f "Total da venda: R${cart_total:.2f}") # exibe o total da venda em uma caixa de mensagem
+        messagebox.showinfo("Total da venda", f"Total da venda: R${cart_total:.2f}") # exibe o total da venda em uma caixa de mensagem
+
         cart = [] # limpa o carrinho
         cart_label.config(text="Carrinho de compras:\n\n") # limpa o rótulo do carrinho
         add_to_cart_button.config(state=tk.DISABLED) # desabilita o botão "Adicionar ao carrinho"
