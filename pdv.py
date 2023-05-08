@@ -28,6 +28,8 @@ def adicionar_produto(produto):
     except sqlite3.IntegrityError:
         messagebox.showerror(title='Erro', message=f"O código de barras '{produto['codigo_barras']}' já está em uso.")
         
+
+        
 # Cria a janela principal
 root = tk.Tk()
 root.title('Cadastro de Produtos')
@@ -69,6 +71,71 @@ tk.Button(root, text='Cadastrar', command=lambda: adicionar_produto({
         'quantidade': int(quantidade_entry.get()),
         'codigo_barras': codigo_entry.get()
     })).grid(row=5, column=1)
+
+
+
+def listar_produtos():
+    print("\n---- Lista de Produtos ----")
+    for produto in estoque:
+        print(f"{produto['codigo']} - {produto['nome']} - R$ {produto['preco']:.2f} - Quantidade: {produto['quantidade']}")
+    
+def vender_produto():
+    print("\n---- Produtos Disponíveis ----")
+    for produto in estoque:
+        print(f"{produto['codigo']} - {produto['nome']} - R$ {produto['preco']:.2f}")
+
+    codigo = input("\nDigite o código do produto que deseja comprar: ")
+    produto = None
+    for p in estoque:
+        if p["codigo"] == codigo:
+            produto = p
+            break
+
+    if produto is None:
+        print("Produto não encontrado.")
+    else:
+        quantidade = int(input("Digite a quantidade que deseja comprar: "))
+        if quantidade > produto["quantidade"]:
+            print("Não há estoque suficiente para atender a demanda.")
+        else:
+            total = quantidade * produto["preco"]
+            print(f"Valor total da compra: R$ {total:.2f}")
+
+            produto["quantidade"] -= quantidade
+            print(f"Compra realizada com sucesso. {quantidade} unidades de {produto['nome']} foram vendidas.")
+
+def cadastrar_produto():
+    codigo = input("\nDigite o código do produto: ")
+    nome = input("Digite o nome do produto: ")
+    preco = float(input("Digite o preço do produto: "))
+    quantidade = int(input("Digite a quantidade do produto: "))
+    
+    estoque.append({"codigo": codigo, "nome": nome, "preco": preco, "quantidade": quantidade})
+    
+def main():
+    while True:
+        print("\n---- Menu Principal ----")
+        print("1 - Cadastrar Produto")
+        print("2 - Listar Produtos")
+        print("3 - Vender Produto")
+        print("0 - Sair")
+        opcao = input("Digite uma opção: ")
+        
+        if opcao == "1":
+            cadastrar_produto()
+        elif opcao == "2":
+            listar_produtos()
+        elif opcao == "3":
+            vender_produto()
+        elif opcao == "0":
+            print("Saindo do programa...")
+            break
+        else:
+            print("Opção inválida. Tente novamente.")
+            
+if __name__ == "__main__":
+    estoque = []
+    main()
 
 # Inicia a janela principal
 root.mainloop()
